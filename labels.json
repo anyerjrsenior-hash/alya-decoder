@@ -1,0 +1,18 @@
+{
+  "version": "1.0",
+  "dim": 29,
+  "dtype": "float32",
+  "layout": [
+    {"name": "emotion", "range": [0, 10], "type": "onehot", "values": ["neutral","sonrisa","alegre","triste","enojada","sorpresa","preocupada","pensativa","timida","guino"]},
+    {"name": "pose",    "range": [10, 14], "type": "onehot", "values": ["frente","izquierda","derecha","inclina"]},
+    {"name": "viseme",  "range": [14, 24], "type": "onehot", "values": ["m","a","e","i","o","u","fv","l","s","smile_open"]},
+    {"name": "eyes",    "range": [24, 28], "type": "onehot", "values": ["abiertos","cerrados","medio","lado"]},
+    {"name": "intensity","range": [28, 29], "type": "scalar", "range_values": [0.0, 1.0]}
+  ],
+  "notes": [
+    "One-hot: 1.0 en el indice elegido, 0.0 en el resto.",
+    "Si un parametro no aplica, deja el vector a cero (equivale a neutral).",
+    "intensity modula la fuerza de la expresion/visema (0 = sutil, 1 = exagerado).",
+    "Rostro recortado a cabeza y hombros, sobre fondo transparente (alfa en el canal 4)."
+  ]
+}
