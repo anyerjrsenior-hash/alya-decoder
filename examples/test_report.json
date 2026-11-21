@@ -1,0 +1,13 @@
+{
+  "model": "alya_decoder_int8.onnx",
+  "size_mb": 12.14,
+  "frames": 10,
+  "latency_ms_median": 56.69,
+  "latency_ms_max": 69.54,
+  "fps_single_thread_pipeline": 17.6,
+  "temporal_delta_mean": 0.03804,
+  "temporal_delta_max": 0.05517,
+  "mouth_region_delta_mean": 0.03088,
+  "determinism_max_abs_diff": 0.0,
+  "veredicto_lipsync": "OK"
+}
