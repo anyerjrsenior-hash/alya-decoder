@@ -1,0 +1,150 @@
+{
+  "visema": {
+    "a": {
+      "eye": 0.0222,
+      "mouth": 0.0313,
+      "other": 0.0139
+    },
+    "e": {
+      "eye": 0.0374,
+      "mouth": 0.0322,
+      "other": 0.0275
+    },
+    "i": {
+      "eye": 0.0216,
+      "mouth": 0.0254,
+      "other": 0.0165
+    },
+    "o": {
+      "eye": 0.0459,
+      "mouth": 0.0422,
+      "other": 0.0252
+    },
+    "u": {
+      "eye": 0.0415,
+      "mouth": 0.0428,
+      "other": 0.0277
+    },
+    "fv": {
+      "eye": 0.0223,
+      "mouth": 0.0282,
+      "other": 0.017
+    },
+    "l": {
+      "eye": 0.025,
+      "mouth": 0.025,
+      "other": 0.016
+    },
+    "s": {
+      "eye": 0.0355,
+      "mouth": 0.0369,
+      "other": 0.0223
+    },
+    "smile_open": {
+      "eye": 0.0363,
+      "mouth": 0.0327,
+      "other": 0.0244
+    },
+    "_media": {
+      "target": 0.033,
+      "other": 0.0212,
+      "ratio": 1.56
+    }
+  },
+  "ojos": {
+    "cerrados": {
+      "eye": 0.0261,
+      "mouth": 0.0274,
+      "other": 0.0154
+    },
+    "medio": {
+      "eye": 0.0358,
+      "mouth": 0.0369,
+      "other": 0.0296
+    },
+    "lado": {
+      "eye": 0.0511,
+      "mouth": 0.0513,
+      "other": 0.0234
+    },
+    "_media": {
+      "target": 0.0377,
+      "other": 0.0228,
+      "ratio": 1.65
+    }
+  },
+  "emocion": {
+    "sonrisa": {
+      "eye": 0.0259,
+      "mouth": 0.0382,
+      "other": 0.0196
+    },
+    "alegre": {
+      "eye": 0.0269,
+      "mouth": 0.0305,
+      "other": 0.0187
+    },
+    "triste": {
+      "eye": 0.0358,
+      "mouth": 0.0335,
+      "other": 0.0206
+    },
+    "enojada": {
+      "eye": 0.0356,
+      "mouth": 0.0435,
+      "other": 0.0244
+    },
+    "sorpresa": {
+      "eye": 0.0188,
+      "mouth": 0.0214,
+      "other": 0.0133
+    },
+    "preocupada": {
+      "eye": 0.0175,
+      "mouth": 0.0191,
+      "other": 0.0122
+    },
+    "pensativa": {
+      "eye": 0.0351,
+      "mouth": 0.034,
+      "other": 0.0231
+    },
+    "timida": {
+      "eye": 0.0168,
+      "mouth": 0.0214,
+      "other": 0.0131
+    },
+    "guino": {
+      "eye": 0.0253,
+      "mouth": 0.0277,
+      "other": 0.0148
+    },
+    "_media": {
+      "target": 0.0299,
+      "other": 0.0178,
+      "ratio": 1.69
+    }
+  },
+  "pose": {
+    "izquierda": {
+      "eye": 0.1126,
+      "mouth": 0.1487,
+      "other": 0.0478
+    },
+    "derecha": {
+      "eye": 0.1056,
+      "mouth": 0.149,
+      "other": 0.0488
+    },
+    "inclina": {
+      "eye": 0.1058,
+      "mouth": 0.1115,
+      "other": 0.0485
+    },
+    "_media": {
+      "target": 0.0484,
+      "other": 0.0484,
+      "ratio": 1.0
+    }
+  }
+}
