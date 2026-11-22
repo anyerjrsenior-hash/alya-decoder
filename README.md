@@ -84,7 +84,34 @@ En un Unisoc T606 las estimaciones conservadoras son 3–6× más lentas que est
 con XNNPACK/NNAPI en Android el objetivo es mantener 30 fps generando cada frame y
 usando caché de 10–15 frames para los que solo cambia la boca.
 
-## 5. Android (ONNX Runtime Mobile)
+## 5. Memoria y velocidad (medido, no estimado)
+
+Medido cargando el `.onnx` en procesos limpios y ejecutando 200–1500 inferencias
+seguidas (x86, 2 hilos). El "delta" es lo que añade el modelo sobre Python+ONNX Runtime,
+que de por sí ocupan ~46 MB; en Android esa base no aplica (la pone la app), así que
+**lo relevante es el delta**.
+
+| precisión | delta al cargar | pico con inferencia | ms/frame | fichero |
+|---|---|---|---|---|
+| **INT8** | +35.4 MB | **123 MB** | **15.1 ms** | 12.1 MB |
+| FP16 | +93.2 MB | 175 MB | 27.2 ms | 23.8 MB |
+| FP32 | +112.6 MB | 172 MB | 20.5 ms | 47.6 MB |
+
+* **Sin fuga de memoria**: 1500 frames seguidos → RSS estable en 123.2 MB
+  (deriva +1.8 MB entre el frame 300 y el 1500, y plano desde el 900).
+* En un Unisoc T606 con 4 GB, la app completa (modelo INT8 + ORT + texturas)
+  debería quedar en **60–90 MB**, muy por debajo del límite por aplicación.
+* Si necesitas aún menos: `z` y las etiquetas son las dos únicas entradas
+  (768 B y 116 B); el coste está en las activaciones, no en los pesos.
+
+## 5.5 Video de demostración
+
+[`examples/alya_showcase_720x1280.mp4`](examples/alya_showcase_720x1280.mp4) —
+17 s, 30 fps, 720×1280, renderizado frame a frame por este modelo (FP16).
+Muestra las 10 emociones, los 10 visemas, las 4 poses, los 4 estados de ojos y una
+secuencia de habla. Sin retoque: lo que ves es la salida cruda del decoder.
+
+## 6. Android (ONNX Runtime Mobile)
 
 ```kotlin
 val opts = SessionOptions().apply { addNnapi(); setIntraOpNumThreads(2) }
@@ -94,14 +121,14 @@ val sess = env.createSession(assetPath, opts)   // alya_decoder_int8.onnx en ass
 
 Guía ampliada en [`docs/ANDROID.md`](docs/ANDROID.md).
 
-## 6. Entrenamiento
+## 7. Entrenamiento
 
 * Dataset: 1000 renders de Alya (768²) → recorte a cabeza y hombros 256², RGBA
 * Pérdidas: L1 de píxel + L1 de bordes (lineart) + KL (VAE) + GAN hinge auxiliar (peso 0.1, R1)
 * 128², batch 32, Adam, ~14000 iteraciones, T4
 * Última línea del log: `it 13900/14000 | rec 0.1368 | edg 0.3197 | kl 10.219 | D 0.630 | 120 img/s | eta 0 min`
 
-## 7. ¿Qué controles funcionan de verdad? (medido, no prometido)
+## 8. ¿Qué controles funcionan de verdad? (medido, no prometido)
 
 Medido sobre el ONNX INT8 publicado: media de |salida&nbsp;−&nbsp;salida&nbsp;neutral| dentro de
 la zona que debería cambiar (boca u ojos) frente al resto de la imagen. Un control real
@@ -120,7 +147,7 @@ Punto débil conocido: sólo ~16 de las 1000 imágenes llevaban etiqueta de ojos
 control de párpados está poco entrenado. Con 200 imágenes más de ojos cerrados/medios se
 arregla (misma arquitectura, no hay que cambiar código).
 
-## 8. Limitaciones honestas (Stage 1)
+## 9. Limitaciones honestas (Stage 1)
 
 * Resolución nativa 128×128; el upscaler a 720p es el módulo 3 y aún no está.
 * Una sola identidad (Alya). No generaliza a otras caras.
@@ -130,7 +157,7 @@ arregla (misma arquitectura, no hay que cambiar código).
 * Es un modelo base entrenado con 1000 imágenes; con más datos y más iteraciones
   mejora de forma directa.
 
-## 9. Hoja de ruta
+## 10. Hoja de ruta
 
 1. **Stage 2**: predictor temporal (audio MFCC → latentes por frame o visemas directos) para lipsync real.
 2. **Stage 3**: upscaler 128² → 720p (ultraligero, INT8) + calibración de color.
