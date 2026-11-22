@@ -1,0 +1,134 @@
+{
+  "model": "alya_decoder_fp16.onnx",
+  "n_images": 1000,
+  "T1_recon_z0": {
+    "error": "[Errno 2] No such file or directory: '/content/model/decoder.pt'"
+  },
+  "T2_gen_por_etiqueta": {
+    "l1": 0.1723,
+    "psnr_db": 21.49,
+    "ssim": 0.6922,
+    "alpha_iou": 0.8175
+  },
+  "T3_precision_etiquetas": {
+    "emotion": {
+      "top1_accuracy": 0.1,
+      "n_clases": 10,
+      "margen_medio": -0.0033
+    },
+    "pose": {
+      "top1_accuracy": 1.0,
+      "n_clases": 4,
+      "margen_medio": 0.0108
+    },
+    "viseme": {
+      "top1_accuracy": 0.1,
+      "n_clases": 10,
+      "margen_medio": -0.0088
+    },
+    "eyes": {
+      "top1_accuracy": 0.25,
+      "n_clases": 4,
+      "margen_medio": -0.0031
+    }
+  },
+  "T4_especificidad": {
+    "emotion": {
+      "ojos": 0.0155,
+      "boca": 0.012,
+      "pelo": 0.0077,
+      "cuerpo": 0.0108
+    },
+    "viseme": {
+      "ojos": 0.0098,
+      "boca": 0.0092,
+      "pelo": 0.0068,
+      "cuerpo": 0.0086
+    },
+    "pose": {
+      "ojos": 0.0543,
+      "boca": 0.0632,
+      "pelo": 0.0201,
+      "cuerpo": 0.0592
+    },
+    "eyes": {
+      "ojos": 0.0195,
+      "boca": 0.016,
+      "pelo": 0.0075,
+      "cuerpo": 0.0149
+    }
+  },
+  "T5_memorizacion": {
+    "dist_media_generado_a_real_mas_cercano": 0.0217,
+    "dist_media_entre_imagenes_reales": 0.0349,
+    "ratio": 0.62
+  },
+  "T6_diversidad_z": {
+    "std_entre_muestras": 0.0401,
+    "rango_pixel_medio": 0.1289,
+    "determinismo_z0": 0.0
+  },
+  "T7_composicion": {
+    "error_vs_suma_lineal": 0.0416,
+    "delta_vs_individual_a": 0.1094,
+    "delta_vs_individual_b": 0.0347
+  },
+  "T8_ood": {
+    "todo_ceros": {
+      "finito": true,
+      "rango": [
+        -0.755,
+        1.0
+      ],
+      "delta_vs_neutral": 0.1028
+    },
+    "todo_unos": {
+      "finito": true,
+      "rango": [
+        -0.976,
+        1.0
+      ],
+      "delta_vs_neutral": 0.3413
+    },
+    "intensidad_0": {
+      "finito": true,
+      "rango": [
+        -0.857,
+        1.0
+      ],
+      "delta_vs_neutral": 0.008
+    },
+    "intensidad_1": {
+      "finito": true,
+      "rango": [
+        -0.86,
+        1.0
+      ],
+      "delta_vs_neutral": 0.0031
+    },
+    "dos_emociones": {
+      "finito": true,
+      "rango": [
+        -0.843,
+        1.0
+      ],
+      "delta_vs_neutral": 0.0247
+    },
+    "etiqueta_negativa": {
+      "finito": true,
+      "rango": [
+        -0.891,
+        1.0
+      ],
+      "delta_vs_neutral": 0.1878
+    }
+  },
+  "T9_alpha": {
+    "iou_medio": 0.8442,
+    "iou_p10": 0.5862
+  },
+  "_meta": {
+    "modelo": "/content/model/alya_decoder_fp16.onnx",
+    "tiempo_s": 41.7
+  }
+}
