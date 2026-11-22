@@ -128,24 +128,60 @@ Guía ampliada en [`docs/ANDROID.md`](docs/ANDROID.md).
 * 128², batch 32, Adam, ~14000 iteraciones, T4
 * Última línea del log: `it 13900/14000 | rec 0.1368 | edg 0.3197 | kl 10.219 | D 0.630 | 120 img/s | eta 0 min`
 
-## 8. ¿Qué controles funcionan de verdad? (medido, no prometido)
+## 8. ¿Cuánto entiende el modelo? (evaluación calibrada)
 
-Medido sobre el ONNX INT8 publicado: media de |salida&nbsp;−&nbsp;salida&nbsp;neutral| dentro de
-la zona que debería cambiar (boca u ojos) frente al resto de la imagen. Un control real
-mueve **su** zona más que el resto (ratio > 1).
+Esta sección **corrige** una versión anterior de este README que decía "el visema funciona".
+No era cierto: aquel test medía deriva global de píxeles, no control real. Lo correcto es
+entrenar un **juez automático** con las imágenes reales del dataset, medir su precisión sobre
+imágenes reales (el *techo* del test) y después pasárselo a las imágenes generadas.
 
-| control | Δ en su zona | Δ en el resto | ratio | veredicto |
+| control | techo (imágenes reales) | modelo | azar | veredicto |
 |---|---|---|---|---|
-| visema (boca) | 0.0330 | 0.0212 | **1.56** | ✅ funciona: A/O/E/U abren la boca de forma clara |
-| emoción | 0.0299 | 0.0178 | **1.69** | ✅ funciona: sonrisa/alegre/enojada se distinguen |
-| pose | 0.0484 | 0.0484 | 1.0 | ✅ funciona: giros e inclinación evidentes (con artefactos) |
-| ojos | 0.0377 | 0.0228 | **1.65** | ⚠️ parcial: mueve la zona de los ojos, pero `cerrados` es sutil (0.026) |
+| **pose** | 0.92 | **1.00** | 0.25 | ✅ **funciona** (mejor que el techo humano del test) |
+| **emoción** | 0.18 | **0.30** | 0.10 | 🟡 parcial: 3 de 10 claras (neutral, alegre, enojada) |
+| **visema** | 0.88 | **0.10** | 0.10 | ❌ **no funciona**: exactamente en el azar |
+| **ojos** | — | — | — | ❌ no evaluable (ver abajo) |
 
-Datos crudos en [`examples/control_localized.json`](examples/control_localized.json).
+### Por qué falla el visema: composición del dataset
 
-Punto débil conocido: sólo ~16 de las 1000 imágenes llevaban etiqueta de ojos, así que el
-control de párpados está poco entrenado. Con 200 imágenes más de ojos cerrados/medios se
-arregla (misma arquitectura, no hay que cambiar código).
+| etiqueta | imágenes |
+|---|---|
+| visema `m` (boca cerrada) | **874 / 1000** |
+| visema `a, e, i, o, u, fv, l, s, smile_open` | **14 cada uno** |
+| ojos `abiertos` | **988 / 1000** |
+| ojos `cerrados, medio, lado` | 4 cada uno |
+
+Con 14 ejemplos por clase no hay nada que aprender: **no es un fallo de la arquitectura, es
+falta de datos**. La sonda sí distingue los visemas en las imágenes reales (0.88), así que el
+test es válido; el modelo simplemente nunca vio bocas distintas.
+
+### Otras medidas (modelo FP16, 1000 imágenes)
+
+| prueba | resultado |
+|---|---|
+| generación desde etiqueta (z=0) | L1 0.172 · **PSNR 21.5 dB** · SSIM 0.69 |
+| calidad del alfa (segmentación) | **IoU 0.844** (p10 = 0.59) |
+| ¿memoriza o generaliza? | dist. generado→real 0.0217 vs real→real 0.0349 (**ratio 0.62**) |
+| diversidad con `z` | std 0.040 · rango de píxel 0.13 · determinismo exacto en `z=0` |
+| robustez fuera de distribución | estable: sin NaN con todo ceros, todo unos, multi-hot o etiquetas negativas |
+| intensidad | casi no hace nada (Δ 0.003–0.008) |
+
+El ratio 0.62 es revelador: lo generado está **más cerca** de las imágenes de entrenamiento de
+lo que esas imágenes están entre sí. Es decir, el modelo ha aprendido una *Alya promedio* por
+pose, no un renderizador fino. Es lo esperable con pérdida L1 y pocos datos.
+
+### Resumen en una frase
+
+Sabe **cómo es Alya de frente y en 4 poses** (y lo sabe muy bien: pose 4/4, PSNR 21.5 dB,
+alfa IoU 0.84). Entiende **parcialmente 3 emociones**. **No sabe** articular boca ni párpados,
+porque el dataset no lo contenía.
+
+### Qué haría falta para arreglarlo (sin cambiar arquitectura)
+
+1. Regenerar el dataset con **~200 imágenes por visema** (2000 en total) manteniendo identidad
+   y pose fija, y **~100 por estado de ojos**.
+2. Repetir el entrenamiento con la misma receta (~45 min en T4).
+3. Volver a pasar esta misma evaluación: el veredicto de visema debería subir de 0.10 a >0.6.
 
 ## 9. Limitaciones honestas (Stage 1)
 
