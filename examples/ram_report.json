@@ -1,0 +1,47 @@
+[
+  {
+    "model": "alya_decoder_int8.onnx",
+    "threads": 2,
+    "n": 200,
+    "rss_base_mb": 45.8,
+    "rss_after_import_mb": 45.8,
+    "rss_loaded_mb": 81.2,
+    "rss_final_mb": 121.4,
+    "peak_rss_mb": 121.4,
+    "model_delta_mb": 35.4,
+    "growth_durante_200_mb": 40.2,
+    "load_ms": 51.2,
+    "ms_per_frame": 15.1,
+    "file_mb": 12.14
+  },
+  {
+    "model": "alya_decoder_fp16.onnx",
+    "threads": 2,
+    "n": 200,
+    "rss_base_mb": 45.9,
+    "rss_after_import_mb": 45.9,
+    "rss_loaded_mb": 139.1,
+    "rss_final_mb": 171.9,
+    "peak_rss_mb": 175.4,
+    "model_delta_mb": 93.2,
+    "growth_durante_200_mb": 32.8,
+    "load_ms": 150.2,
+    "ms_per_frame": 27.2,
+    "file_mb": 23.82
+  },
+  {
+    "model": "alya_decoder.onnx",
+    "threads": 2,
+    "n": 200,
+    "rss_base_mb": 45.8,
+    "rss_after_import_mb": 45.8,
+    "rss_loaded_mb": 158.3,
+    "rss_final_mb": 158.3,
+    "peak_rss_mb": 172.2,
+    "model_delta_mb": 112.6,
+    "growth_durante_200_mb": 0.0,
+    "load_ms": 145.7,
+    "ms_per_frame": 20.5,
+    "file_mb": 47.57
+  }
+]
