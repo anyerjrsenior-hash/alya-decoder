@@ -1,0 +1,168 @@
+{
+  "model": "alya_decoder_fp16.onnx",
+  "emotion": {
+    "techo_con_imagenes_reales": 0.179,
+    "modelo": 0.3,
+    "azar": 0.1,
+    "n_clases": 10,
+    "imgs_por_clase": {
+      "0": 153,
+      "1": 86,
+      "2": 91,
+      "3": 92,
+      "4": 85,
+      "5": 85,
+      "6": 101,
+      "7": 109,
+      "8": 111,
+      "9": 87
+    },
+    "detalle": {
+      "neutral": {
+        "predicho": "neutral",
+        "acierta": true
+      },
+      "sonrisa": {
+        "predicho": "neutral",
+        "acierta": false
+      },
+      "alegre": {
+        "predicho": "alegre",
+        "acierta": true
+      },
+      "triste": {
+        "predicho": "guino",
+        "acierta": false
+      },
+      "enojada": {
+        "predicho": "enojada",
+        "acierta": true
+      },
+      "sorpresa": {
+        "predicho": "neutral",
+        "acierta": false
+      },
+      "preocupada": {
+        "predicho": "guino",
+        "acierta": false
+      },
+      "pensativa": {
+        "predicho": "neutral",
+        "acierta": false
+      },
+      "timida": {
+        "predicho": "neutral",
+        "acierta": false
+      },
+      "guino": {
+        "predicho": "neutral",
+        "acierta": false
+      }
+    },
+    "relativo_al_techo": 2.532,
+    "veredicto": "FUNCIONA"
+  },
+  "pose": {
+    "techo_con_imagenes_reales": 0.922,
+    "modelo": 1.0,
+    "azar": 0.25,
+    "n_clases": 4,
+    "imgs_por_clase": {
+      "0": 254,
+      "1": 247,
+      "2": 253,
+      "3": 246
+    },
+    "detalle": {
+      "frente": {
+        "predicho": "frente",
+        "acierta": true
+      },
+      "izquierda": {
+        "predicho": "izquierda",
+        "acierta": true
+      },
+      "derecha": {
+        "predicho": "derecha",
+        "acierta": true
+      },
+      "inclina": {
+        "predicho": "inclina",
+        "acierta": true
+      }
+    },
+    "relativo_al_techo": 1.116,
+    "veredicto": "FUNCIONA"
+  },
+  "viseme": {
+    "techo_con_imagenes_reales": 0.884,
+    "modelo": 0.1,
+    "azar": 0.1,
+    "n_clases": 10,
+    "imgs_por_clase": {
+      "0": 874,
+      "1": 14,
+      "2": 14,
+      "3": 14,
+      "4": 14,
+      "5": 14,
+      "6": 14,
+      "7": 14,
+      "8": 14,
+      "9": 14
+    },
+    "detalle": {
+      "m": {
+        "predicho": "m",
+        "acierta": true
+      },
+      "a": {
+        "predicho": "m",
+        "acierta": false
+      },
+      "e": {
+        "predicho": "m",
+        "acierta": false
+      },
+      "i": {
+        "predicho": "m",
+        "acierta": false
+      },
+      "o": {
+        "predicho": "m",
+        "acierta": false
+      },
+      "u": {
+        "predicho": "m",
+        "acierta": false
+      },
+      "fv": {
+        "predicho": "m",
+        "acierta": false
+      },
+      "l": {
+        "predicho": "m",
+        "acierta": false
+      },
+      "s": {
+        "predicho": "m",
+        "acierta": false
+      },
+      "smile_open": {
+        "predicho": "m",
+        "acierta": false
+      }
+    },
+    "relativo_al_techo": 0.0,
+    "veredicto": "NO FUNCIONA"
+  },
+  "eyes": {
+    "nota": "solo 1 clase(s) con >=10 im\u00e1genes; no evaluable",
+    "clases": {
+      "0": 988,
+      "1": 4,
+      "2": 4,
+      "3": 4
+    }
+  }
+}
