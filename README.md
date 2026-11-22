@@ -101,16 +101,36 @@ Guía ampliada en [`docs/ANDROID.md`](docs/ANDROID.md).
 * 128², batch 32, Adam, ~14000 iteraciones, T4
 * Última línea del log: `it 13900/14000 | rec 0.1368 | edg 0.3197 | kl 10.219 | D 0.630 | 120 img/s | eta 0 min`
 
-## 7. Limitaciones honestas (Stage 1)
+## 7. ¿Qué controles funcionan de verdad? (medido, no prometido)
+
+Medido sobre el ONNX INT8 publicado: media de |salida&nbsp;−&nbsp;salida&nbsp;neutral| dentro de
+la zona que debería cambiar (boca u ojos) frente al resto de la imagen. Un control real
+mueve **su** zona más que el resto (ratio > 1).
+
+| control | Δ en su zona | Δ en el resto | ratio | veredicto |
+|---|---|---|---|---|
+| visema (boca) | 0.0330 | 0.0212 | **1.56** | ✅ funciona: A/O/E/U abren la boca de forma clara |
+| emoción | 0.0299 | 0.0178 | **1.69** | ✅ funciona: sonrisa/alegre/enojada se distinguen |
+| pose | 0.0484 | 0.0484 | 1.0 | ✅ funciona: giros e inclinación evidentes (con artefactos) |
+| ojos | 0.0377 | 0.0228 | **1.65** | ⚠️ parcial: mueve la zona de los ojos, pero `cerrados` es sutil (0.026) |
+
+Datos crudos en [`examples/control_localized.json`](examples/control_localized.json).
+
+Punto débil conocido: sólo ~16 de las 1000 imágenes llevaban etiqueta de ojos, así que el
+control de párpados está poco entrenado. Con 200 imágenes más de ojos cerrados/medios se
+arregla (misma arquitectura, no hay que cambiar código).
+
+## 8. Limitaciones honestas (Stage 1)
 
 * Resolución nativa 128×128; el upscaler a 720p es el módulo 3 y aún no está.
 * Una sola identidad (Alya). No generaliza a otras caras.
 * Movimiento entre frames es limitado: la parte temporal (módulo 2) no está entrenada todavía.
   Las poses grandes pueden producir artefactos.
+* El control de párpados es el más débil (pocas imágenes etiquetadas).
 * Es un modelo base entrenado con 1000 imágenes; con más datos y más iteraciones
   mejora de forma directa.
 
-## 8. Hoja de ruta
+## 9. Hoja de ruta
 
 1. **Stage 2**: predictor temporal (audio MFCC → latentes por frame o visemas directos) para lipsync real.
 2. **Stage 3**: upscaler 128² → 720p (ultraligero, INT8) + calibración de color.
